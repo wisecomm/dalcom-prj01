@@ -1,6 +1,6 @@
-# [shadcn/ui sidebar](https://shadcn-ui-sidebar.salimi.my) &middot; [![Author Salimi](https://img.shields.io/badge/Author-Salimi-%3C%3E)](https://www.salimi.my)
+# dalcom prj01
 
-A stunning and functional retractable sidebar for Next.js built on top of [shadcn/ui](https://ui.shadcn.com) complete with desktop and mobile responsiveness.
+[shadcn/ui](https://ui.shadcn.com) 메뉴바 구성
 
 ## Features
 
@@ -11,79 +11,13 @@ A stunning and functional retractable sidebar for Next.js built on top of [shadc
 - Collapsible submenu
 - Extracted menu items list
 
-## Tech/framework used
+## 사용된 기술
 
-- Next.js 14
+- Next.js 15
 - Shadcn/ui
-- Tailwind CSS
+- Tailwind CSS  --> 4 기반 변경 필요
 - TypeScript
 - Zustand
-
-## Installation
-
-### Custom registry
-
-If you are using @shadcn/ui 2.0.0 or later, you can install the component directly from the registry.
-
-```bash
-npx shadcn@latest add https://raw.githubusercontent.com/salimi-my/shadcn-ui-sidebar/refs/heads/master/public/registry/shadcn-sidebar.json
-
-or
-
-npx shadcn@latest add https://shadcn-ui-sidebar.salimi.my/registry/shadcn-sidebar.json
-```
-
-### Usage example for Nextjs
-```tsx
-//layout.tsx
-import AdminPanelLayout from "@/components/admin-panel/admin-panel-layout";
-
-export default async function Layout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return <AdminPanelLayout>{children}</AdminPanelLayout>;
-}
-
-//page.tsx
-import { ContentLayout } from "@/components/admin-panel/content-layout";
-
-export default function Page() {
-  return (
-    <ContentLayout title="Test">
-      <div>Test</div>
-    </ContentLayout>
-  );
-}
-```
-
-## Starting the project locally
-
-1. Clone the repository
-
-   ```bash
-   git clone https://github.com/salimi-my/shadcn-ui-sidebar
-   ```
-
-2. Install dependencies
-
-   ```bash
-   cd shadcn-ui-sidebar
-   npm install
-   ```
-
-3. Run the development server
-
-   ```bash
-   npm run dev
-   ```
-
-## Demo
-
-The app is hosted on Vercel. [Click here](https://shadcn-ui-sidebar.salimi.my) to visit.
-<br>
-Direct demo link: `https://shadcn-ui-sidebar.salimi.my`
 
 ## Screenshots
 
