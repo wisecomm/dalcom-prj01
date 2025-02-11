@@ -89,14 +89,14 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "테스트",
       menus: [
         {
-          href: "/test01",
-          label: "테스트 01",
-          icon: Users,
-        },
-        {
           href: "/account",
           label: "Account",
           icon: Settings,
+        },
+        {
+          href: "/test01",
+          label: "그리드 화면 샛팅",
+          icon: Users,
         },
       ],
     },

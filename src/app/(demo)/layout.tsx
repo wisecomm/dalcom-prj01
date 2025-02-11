@@ -8,7 +8,7 @@ export default function DemoLayout({
 }) {
   return (
     <AdminPanelLayout>
-      <ContentLayout title="All Posts">{children}</ContentLayout>
+      <ContentLayout title="Email Log Manager System">{children}</ContentLayout>
     </AdminPanelLayout>
   );
 }
