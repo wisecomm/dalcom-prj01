@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { ContentLayout } from "@/components/admin-panel/content-layout";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -25,7 +24,7 @@ export default function DashboardPage() {
   if (!sidebar) return null;
   const { settings, setSettings } = sidebar;
   return (
-    <ContentLayout title="Dashboard">
+    <>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -73,6 +72,6 @@ export default function DashboardPage() {
           </Tooltip>
         </div>
       </TooltipProvider>
-    </ContentLayout>
+      </>
   );
 }
