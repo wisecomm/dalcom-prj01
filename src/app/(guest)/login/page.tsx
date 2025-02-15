@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useTransition } from "react";
 import Image from "next/image";
 import { setToken } from "@/app/utils/cookie";
 import { useForm } from "react-hook-form";
