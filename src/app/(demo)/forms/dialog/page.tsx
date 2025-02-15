@@ -7,7 +7,6 @@ import { DialogDemo } from "@/components/ui-etc/DialogDemo";
 import { DialogFormDemo } from "@/components/ui-etc/DialogFormDemo";
 import { DialogFormZodDemo } from "@/components/ui-etc/DialogFormZodDemo";
 import { DialogFormZodAltDemo } from "@/components/ui-etc/DialogFormZodAltDemo";
-import { FormZodDemo } from "@/components/ui-etc/FormZodDemo";
 
 function DialogPage() {
   const [openDalAlertDialog, setOpenDalAlertDialog] = useState(false);
@@ -15,7 +14,6 @@ function DialogPage() {
   const [openDialogFormDemo, setOpenDialogFormDemo] = useState(false);
   const [openDialogFormZodDemo, setOpenDialogFormZodDemo] = useState(false);
   const [openDialogFormZodAltDemo, setOpenDialogFormZodAltDemo] = useState(false);
-  const [openFormZodDemo, setOpenFormZodDemo] = useState(false);
   
   
   const handleConfirm = () => {
@@ -65,13 +63,6 @@ function DialogPage() {
       >
         DialogFormZodAltDemo 열기
       </Button>
-      <Button
-        variant="outline"
-        size="lg"
-        onClick={() => setOpenFormZodDemo(true)}
-      >
-        FormZodDemo 열기
-      </Button>
       <DalAlertDialog
         open={openDalAlertDialog}
         onOpenChange={setOpenDalAlertDialog}
@@ -102,12 +93,6 @@ function DialogPage() {
       <DialogFormZodAltDemo
         open={openDialogFormZodAltDemo}
         onOpenChange={setOpenDialogFormZodAltDemo}
-        onConfirm={handleConfirm}
-        onCancel={handleCancel}
-      />
-      <FormZodDemo
-        open={openFormZodDemo}
-        onOpenChange={setOpenFormZodDemo}
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />

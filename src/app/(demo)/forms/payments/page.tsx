@@ -6,11 +6,11 @@ import { DataTable } from "@/components/custom/datatable/data-table";
 import { DataTableToolbar } from "./data-table-toolbar";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "./testdata";
-import { FormZodDemo } from '@/components/ui-etc/FormZodDemo';
+import { DialogFormZodAltDemo } from "@/components/ui-etc/DialogFormZodAltDemo";
 import { DalAlertDialog } from "@/components/ui-etc/dal-alert-dialog";
 
 export default function DemoPage() {
-  const [openFormZodDemo, setOpenFormZodDemo] = useState(false);
+  const [openDialogFormZodAltDemo, setOpenDialogFormZodAltDemo] = useState(false);
   const [openDalAlertDialog, setOpenDalAlertDialog] = useState(false);
 
 
@@ -54,7 +54,7 @@ export default function DemoPage() {
                 </Button>
               </div>
               <div className="flex items-center justify-end space-x-2">
-                <Button variant="outline" size="lg" onClick={() => setOpenFormZodDemo(true)}>
+                <Button variant="outline" size="lg" onClick={() => setOpenDialogFormZodAltDemo(true)}>
                   추가
                 </Button>
                 <Button variant="outline" size="lg" onClick={() => setOpenDalAlertDialog(true)}>
@@ -66,9 +66,9 @@ export default function DemoPage() {
 
         </div>
       </div>
-      <FormZodDemo
-        open={openFormZodDemo}
-        onOpenChange={setOpenFormZodDemo}
+      <DialogFormZodAltDemo
+        open={openDialogFormZodAltDemo}
+        onOpenChange={setOpenDialogFormZodAltDemo}
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />
