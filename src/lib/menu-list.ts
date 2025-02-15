@@ -41,6 +41,38 @@ export function getMenuList(pathname: string): Group[] {
       ],
     },
     {
+      groupLabel: "테스트 화면",
+      menus: [
+        {
+          href: "",
+          label: "화면들",
+          icon: SquarePen,
+          submenus: [
+            {
+              label: "입력화면",
+              href: "/forms/input",
+            },
+            {
+              label: "팝업화면 테스트",
+              href: "/forms/dialog",
+            },
+            {
+              label: "그리드 화면 테스트",
+              href: "/forms/payments",
+            },
+            {
+              label: "시스템 설정(덜됨)",
+              href: "/forms/systemsetting",
+            },
+            {
+              label: "화면 grid tag 테스트",
+              href: "/forms/test01",
+            },
+          ],
+        },
+    ],
+    },
+    {
       groupLabel: "Contents",
       menus: [
         {
@@ -82,21 +114,6 @@ export function getMenuList(pathname: string): Group[] {
           href: "/account",
           label: "Account",
           icon: Settings,
-        },
-      ],
-    },
-    {
-      groupLabel: "테스트",
-      menus: [
-        {
-          href: "/account",
-          label: "Account",
-          icon: Settings,
-        },
-        {
-          href: "/test01",
-          label: "그리드 화면 샛팅",
-          icon: Users,
         },
       ],
     },
