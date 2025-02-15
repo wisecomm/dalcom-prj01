@@ -9,3 +9,6 @@
 - [ ] : XXXX
 
 
+## vercle 배포
+
+install command 추가 : npm install --legacy-peer-deps

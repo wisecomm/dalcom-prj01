@@ -194,7 +194,7 @@ export function DataTable<TData, TValue>({
             onValueChange={(value) => {
               const newPageSize = Number(value);
               const currentRow = pageSize * pageIndex;
-              const newPageIndex = Math.floor(currentRow / newPageSize);
+//              const newPageIndex = Math.floor(currentRow / newPageSize);
               
               table.setPageSize(newPageSize);
               table.setPageIndex(0); // Reset to first page
