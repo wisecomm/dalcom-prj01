@@ -21,8 +21,8 @@ const config = {
       height: {
         full: "100%",
         screen: "100vh",
-        // 컨텐츠 레이아웃의 높이를 조정 ( 탑, 바텀 높이 제외, 대충  )
-        custom: "calc(100vh - 8rem)",
+		// 컨텐츠 레이아웃의 높이를 조정 ( 동적으로 Navbar, Footer 높이 제외 )
+		custom: "calc(100vh - (var(--navbar-height) + var(--footer-height)))",
       },
       colors: {
         border: "hsl(var(--border))",

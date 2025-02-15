@@ -4,6 +4,9 @@
 
 @layer base {
   :root {
+    --navbar-height: 4rem; /* Adjust this value as needed */
+    --footer-height: 4rem; /* Adjust this value as needed */
+  
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
 
