@@ -20,6 +20,7 @@ export const FormZodDemo: React.FC<Props> = ({ open, onOpenChange, onConfirm, on
 
   if (!open) return null;
 
+  // Define the form schema using zod
   const accountFormSchema = z.object({
     username: z.string().min(2, {
       message: "사용자 이름을 입력하세요.",
@@ -29,24 +30,32 @@ export const FormZodDemo: React.FC<Props> = ({ open, onOpenChange, onConfirm, on
       message: "취미를 입력하세요.",
     }),
   });
+
+  // Define the form values type
   type AccountFormValues = z.infer<typeof accountFormSchema>;
+
+  // Set default values for the form fields
   const defaultValues: Partial<AccountFormValues> = {
     username: "홍길동",
     age: 20,
     hobby: "",
   };
+
+  // Initialize useForm with default values
   const formData = useForm<AccountFormValues>({
     defaultValues,
   });
 
+  // Initialize useTransition for concurrent rendering
   const [isPending, startTransition] = useTransition();
 
+  // Handle form submission
   const handleSubmit = (submitData: AccountFormValues) => {
     startTransition(async () => {
       try {
         console.log(submitData);
 
-        // 전송 전에 입력필드 검증
+        // Validate form data before submission
         const result = accountFormSchema.safeParse(submitData);
         if (!result.success) {
           const firstError = result.error.errors[0];
@@ -54,7 +63,7 @@ export const FormZodDemo: React.FC<Props> = ({ open, onOpenChange, onConfirm, on
           return;
         }
 
-        // 서버 전송 로직 추가
+        // Simulate server submission
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
         handleConfirm();
@@ -65,12 +74,14 @@ export const FormZodDemo: React.FC<Props> = ({ open, onOpenChange, onConfirm, on
     });
   };
 
+  // Handle form confirmation
   const handleConfirm = () => {
     formData.reset();
     onConfirm?.();
     onOpenChange(false);
   };
 
+  // Handle form cancellation
   const handleCancel = () => {
     formData.reset();
     onCancel?.();
@@ -130,7 +141,7 @@ export const FormZodDemo: React.FC<Props> = ({ open, onOpenChange, onConfirm, on
             </div>
           </div>
           <div className="flex justify-end space-x-2 mt-4">
-            <Button variant="outline" size="sm" onClick={handleCancel}  className={cn(buttonVariants({ variant: 'outline' }))}>
+            <Button variant="outline" size="sm" onClick={handleCancel} className={cn(buttonVariants({ variant: 'outline' }))}>
               취소
             </Button>
             <Button disabled={isPending} variant="outline" size="sm" onClick={formData.handleSubmit(handleSubmit)} className={cn(buttonVariants({ variant: 'outline' }), 'bg-black text-white hover:bg-gray-800')}>
