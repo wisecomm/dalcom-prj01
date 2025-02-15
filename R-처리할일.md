@@ -12,3 +12,33 @@
 ## vercle 배포
 
 install command 추가 : npm install --legacy-peer-deps
+
+- use-toast.ts 수정  
+type Action =
+  | {
+      type: ActionType["ADD_TOAST"]
+      toast: ToasterToast
+    }
+  | {
+      type: ActionType["UPDATE_TOAST"]
+      toast: Partial<ToasterToast>
+    }
+  | {
+      type: ActionType["DISMISS_TOAST"]
+      toastId?: ToasterToast["id"]
+    }
+  | {
+      type: ActionType["REMOVE_TOAST"]
+      toastId?: ToasterToast["id"]
+    }
+
+- eslint.config.mjs 수정 : 필요한지는 한번 더 확인 
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    rules: {
+      "no-unused-vars": "off", // Turn off the base rule as it can report incorrect errors
+      "@typescript-eslint/no-unused-vars": ["error"], // Treat unused variables as errors
+    },
+  },
+];
