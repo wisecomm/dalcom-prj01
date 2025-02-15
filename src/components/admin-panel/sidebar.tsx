@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useStore } from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
-import { PanelsTopLeft } from "lucide-react";
-import Link from "next/link";
+import Image from "next/image";
 
 export function Sidebar() {
   const sidebar = useStore(useSidebar, (x) => x);
@@ -24,8 +23,20 @@ export function Sidebar() {
       <div
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
-        className="relative h-full flex flex-col px-3 py-4 overflow-y-auto shadow-md dark:shadow-zinc-800"
+        className="relative h-full flex flex-col overflow-y-auto shadow-md dark:shadow-zinc-800"
       >
+          <div className="flex items-center border gap-2 px-4 border-gray-200 dark:border-gray-700 rounded-md" style={{ height: 'var(--navbar-height)' }}>
+            <Image
+              src="/image/myimage/dalcomlab-log.avif"
+              alt=""
+              width={42}
+              height={42}
+            />
+            <div className="flex flex-col">
+              <span className="text-xs leading-3 font-medium">Dalcomlab Ai</span>
+              <span className="text-[10px] text-gray-500">Email analyze</span>
+            </div>
+          </div>
         <Button
           className={cn(
             "transition-transform ease-in-out duration-300 mb-1",
@@ -34,19 +45,6 @@ export function Sidebar() {
           variant="link"
           asChild
         >
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <PanelsTopLeft className="w-6 h-6 mr-1" />
-            <h1
-              className={cn(
-                "font-bold text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300",
-                !getOpenState()
-                  ? "-translate-x-96 opacity-0 hidden"
-                  : "translate-x-0 opacity-100"
-              )}
-            >
-              BrandKK
-            </h1>
-          </Link>
         </Button>
         <Menu isOpen={getOpenState()} />
       </div>

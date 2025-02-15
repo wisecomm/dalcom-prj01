@@ -4,8 +4,13 @@
 
 @layer base {
   :root {
+    /* danyoh modify start */
     --navbar-height: 4rem; /* Adjust this value as needed */
     --footer-height: 4rem; /* Adjust this value as needed */
+
+    --navbar-background: 231 20% 41%; /* Converted from rgb(82, 88, 125) */
+    --footer-background: 231 20% 41%; /* Converted from rgb(82, 88, 125) */
+    /* danyoh modify end */
   
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -75,5 +80,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* danyoh 추가 */
+    overflow: hidden; /* Hide overflow to remove scrollbar */
+  }
+  html {
+    /* danyoh 추가 */
+    overflow: hidden; /* Hide overflow to remove scrollbar */
   }
 }

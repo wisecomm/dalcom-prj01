@@ -8,9 +8,9 @@ interface NavbarProps {
 
 export function Navbar({ title }: NavbarProps) {
   return (
-    <header className="sticky top-0 z-10 w-full bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
-      <div className="mx-4 sm:mx-8 flex items-center" style={{ height: 'var(--navbar-height)' }}>
-        <div className="flex items-center space-x-4 lg:space-x-0">
+    <header className="sticky top-0 z-10 w-full bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary" style={{ backgroundColor: 'hsl(var(--navbar-background))' }}>
+    <div className="container mx-auto flex items-center" style={{ height: 'var(--navbar-height)' }}>
+    <div className="flex items-center space-x-4 lg:space-x-0">
           <SheetMenu />
           <h1 className="font-bold">{title}</h1>
         </div>
