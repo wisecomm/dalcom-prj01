@@ -66,8 +66,9 @@ function Login() {
   */
 
         setToken("test-token-1234567");
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        //      window.location.replace("/main");
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        window.location.replace("/dashboard");
       } catch (error) {
         console.log("onSubmit error: " + error);
       }
