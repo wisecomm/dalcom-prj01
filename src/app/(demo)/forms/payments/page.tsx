@@ -12,8 +12,6 @@ import { DalAlertDialog } from "@/components/ui-etc/dal-alert-dialog";
 export default function DemoPage() {
   const [openDialogFormZodAltDemo, setOpenDialogFormZodAltDemo] = useState(false);
   const [openDalAlertDialog, setOpenDalAlertDialog] = useState(false);
-
-
   const [tableData, setTableData] = useState<Payment[]>([]);
 
   useEffect(() => {
@@ -28,9 +26,19 @@ export default function DemoPage() {
     console.log("확인 버튼 클릭됨");
     // 여기에 확인 시 실행할 로직 추가
   };
+
   const handleCancel = () => {
     console.log("취소 버튼 클릭됨");
     // 여기에 취소 시 실행할 로직 추가
+  };
+
+  const onRowSelect = (selectedRow: Payment | undefined) => {
+    if (selectedRow) {
+      console.log('Selected row:', selectedRow);
+      // Handle the selected row
+    } else {
+      console.log('No row selected');
+    }
   };
 
   return (
@@ -42,10 +50,7 @@ export default function DemoPage() {
               columns={columns}
               data={tableData}
               DataTableToolbar={DataTableToolbar}
-              onRowSelect={(selectedRow) => {
-                console.log('XXXXXXXX Selected row:', selectedRow);
-                // Handle the selected row
-              }}
+              onRowSelect={onRowSelect}
             />
             <div className='flex items-center justify-between'>
               <div className="flex items-center space-x-2">
@@ -63,7 +68,6 @@ export default function DemoPage() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
       <DialogFormZodAltDemo
@@ -77,7 +81,6 @@ export default function DemoPage() {
         onOpenChange={setOpenDalAlertDialog}
         title="정말 삭제하시겠습니까?"
         description={"동해물과 백두산이 태그는 적용되어 저장된다"}
-        // description={'동해물과 백두산이 \n 마르고 닳도록'}
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />
