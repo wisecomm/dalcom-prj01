@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useTransition } from 'react'
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -29,31 +29,28 @@ function PageInput() {
     defaultValues,
   })
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  async function onSubmit(data: AccountFormValues) {
-    try {
-      console.log(data)
+  const handleSubmit = (submitData: AccountFormValues) => {
+    startTransition(async () => {
+      try {
+        console.log(submitData)
 
-      setIsLoading(true)
-  
-      // 전송 전에 입력필드 검증
-      const result = accountFormSchema.safeParse(data)
-      if (!result.success) {
-        console.log("입력필드 에러 : " + result.error)
+        // 전송 전에 입력필드 검증
+        const result = accountFormSchema.safeParse(submitData)
+        if (!result.success) {
+          console.log("입력필드 에러 : " + result.error)
 
-        const firstError = result.error.errors[0]
-        showToastMessage("Validation Error", JSON.stringify(firstError.message, null, 2))
-        return
+          const firstError = result.error.errors[0]
+          showToastMessage("Validation Error", JSON.stringify(firstError.message, null, 2))
+          return
+        }
+
+        showToastMessage("You onSubmit the following values", JSON.stringify(submitData, null, 2))
+      } catch (error) {
+        console.log("onSubmit error: " + error)
       }
-
-      showToastMessage("You onSubmit the following values", JSON.stringify(data, null, 2))
-    } catch (error) {
-      console.log("onSubmit error: " + error)
-    } finally {
-      setIsLoading(false)
-    }
-
+    });
   }
   
   return (
@@ -64,7 +61,7 @@ function PageInput() {
           <CardDescription>필수 정보를 입력헤볼게요.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={formData.handleSubmit(onSubmit)}>
+          <form>
             <div className="mb-4">
               <Label htmlFor="username">Username</Label>
               <Input {...formData.register('username')} id="username" placeholder="Enter your username" />
@@ -77,7 +74,7 @@ function PageInput() {
               <Label htmlFor="hobby">취미</Label>
               <Input {...formData.register('hobby')} id="hobby" />
             </div>
-            <Button type='submit' disabled={isLoading}>전송</Button>
+            <Button disabled={isPending} onClick={formData.handleSubmit(handleSubmit)}>전송</Button>
           </form>
         </CardContent>
       </Card>
