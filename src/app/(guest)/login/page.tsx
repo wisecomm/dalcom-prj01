@@ -9,11 +9,14 @@ import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 //import { setLogin } from "@/app/(admin)/actions/useSetLogin";
 
 //import { setLogin } from "@/app/api/useSetLogin";
 
 function Login() {
+  const router = useRouter();
+
   const accountFormSchema = z.object({
     userid: z.string().min(1, {
       message: "사용자 아이디을 입력하세요.",
@@ -68,7 +71,7 @@ function Login() {
         setToken("test-token-1234567");
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        window.location.replace("/dashboard");
+        router.push("/dashboard");
       } catch (error) {
         console.log("onSubmit error: " + error);
       }
