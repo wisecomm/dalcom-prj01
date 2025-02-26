@@ -57,8 +57,12 @@ export function getMenuList(): Group[] {
               href: "/forms/dialog",
             },
             {
-              label: "그리드 화면 테스트",
-              href: "/forms/payments",
+              label: "그리드 화면(로컬 페이징)",
+              href: "/forms/datatable-local",
+            },
+            {
+              label: "그리드 화면(서버 페이징)",
+              href: "/forms/datatable-server",
             },
             {
               label: "시스템 설정(덜됨)",
@@ -70,7 +74,7 @@ export function getMenuList(): Group[] {
             },
           ],
         },
-    ],
+      ],
     },
     {
       groupLabel: "Contents",
