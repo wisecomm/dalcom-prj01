@@ -81,8 +81,10 @@ export const DataTable = React.forwardRef<
         columnFilters,
         ...(pagination
           ? {
-              pageIndex: pagination?.pageIndex ?? 0,
-              pageSize: pagination?.pageSize ?? 10,
+              pagination: {
+                pageIndex: pagination?.pageIndex ?? 0,
+                pageSize: pagination?.pageSize ?? 10,
+              },
             }
           : {}),
       },
