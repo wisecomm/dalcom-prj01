@@ -5,13 +5,13 @@
 - [ ] : 페이징 처리 그리드 작성
 
 ## 에러 사항
-- [ ] : 화면이 작아지면 다른 메뉴바 클릭시 워닝 발생, 확인 또지 메뉴 제거 검토
+- [X] : 화면이 작아지면 다른 메뉴바 클릭시 워닝 발생, 확인 또지 메뉴 제거 검토
 - [ ] : XXXX
 
 
-## vercle 배포
+## vercle 배포 수정사항 
 
-install command 추가 : npm install --legacy-peer-deps
+vercle 인스톨 메뉴에 추가 (install command) : npm install --legacy-peer-deps
 
 - use-toast.ts 수정  
 type Action =

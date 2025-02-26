@@ -31,6 +31,7 @@ export function Sidebar() {
               alt=""
               width={42}
               height={42}
+              style={{ width: '42px', height: '42px' }}
             />
             <div className="flex flex-col">
               <span className="text-xs leading-3 font-medium">Dalcomlab Ai</span>
