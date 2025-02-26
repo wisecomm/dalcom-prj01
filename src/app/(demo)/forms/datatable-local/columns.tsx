@@ -17,7 +17,6 @@ export const columns: ColumnDef<Payment>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <div className="flex items-center justify-center">
       <Checkbox
         checked={
           table.getIsAllPageRowsSelected() ||
@@ -27,35 +26,32 @@ export const columns: ColumnDef<Payment>[] = [
         aria-label="Select all"
         className="translate-y-[2px]"
       />
-      </div>
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex items-center justify-center">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
           aria-label="Select row"
           className="translate-y-[2px]"
         />
-        </div>
       );
     },
     enableSorting: false,
     enableHiding: false,
+    size: 10,
   },
   {
     accessorKey: "id",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="아이디" />
     ),
-    cell: ({ row }) => (
-      <div className="flex items-center justify-center space-x-2">
-        <div className="w-[80px]">{row.getValue("id")}</div>
-      </div>
-    ),
+    cell: ({ row }) => {
+      return row.getValue("id");
+    },
     enableSorting: false,
     enableHiding: false,
+    size: 50,
   },
   {
     accessorKey: "title",
@@ -63,27 +59,19 @@ export const columns: ColumnDef<Payment>[] = [
       <DataTableColumnHeader column={column} title="제  목" />
     ),
     cell: ({ row }) => {
-      return (
-        <div className="flex items-center justify-center">
-          <span className="w-[500px]">
-            {row.getValue("title")}
-          </span>
-        </div>
-      );
+      return row.getValue("title");
     },
+    size: 500,
   },
   {
     accessorKey: "email",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Email" />
+      <DataTableColumnHeader column={column} title="메 일" />
     ),
     cell: ({ row }) => {
-      return (
-        <div className="flex items-center justify-center">
-          <span className="w-[100px]">{row.getValue("email")}</span>
-        </div>
-      );
+      return row.getValue("email");
     },
+    size: 150,
   },
   {
     accessorKey: "amount",
@@ -91,11 +79,8 @@ export const columns: ColumnDef<Payment>[] = [
       <DataTableColumnHeader column={column} title="amount" />
     ),
     cell: ({ row }) => {
-      return (
-        <div className="flex items-center justify-center">
-          <span className="w-[10px]">{row.getValue("amount")}</span>
-        </div>
-      );
+      return row.getValue("amount");
     },
+    size: 50,
   },
 ];

@@ -55,6 +55,31 @@ interface DataTableProps<TData, TValue> {
   DataTableToolbar?: React.ComponentType<{ table: TanstackTable<TData> }>;
 }
 
+const resizingStyles = `
+  .resizer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background: rgba(0, 0, 0, 0.1);
+    cursor: col-resize;
+    user-select: none;
+    touch-action: none;
+    opacity: 0;
+  }
+  
+  .resizer:hover, .resizing {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+  .isResizing {
+    background: rgba(58, 150, 247, 0.5);
+    opacity: 1;
+  }
+`;
+
 export const DataTable = React.forwardRef<
   DataTableHandle,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -111,6 +136,11 @@ export const DataTable = React.forwardRef<
       getSortedRowModel: getSortedRowModel(),
       getFacetedRowModel: getFacetedRowModel(),
       getFacetedUniqueValues: getFacetedUniqueValues(),
+      enableColumnResizing: true, // If you want resizable columns
+      columnResizeMode: "onChange",
+      debugTable: true,
+      debugHeaders: true,
+      debugColumns: true,
     });
 
     React.useImperativeHandle(ref, () => ({
@@ -129,9 +159,12 @@ export const DataTable = React.forwardRef<
 
     return (
       <div className="space-y-4">
+        <style jsx global>
+          {resizingStyles}
+        </style>
         {DataTableToolbar && <DataTableToolbar table={table} />}
         <div className="rounded-md border">
-          <Table>
+          <Table className="w-full">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
@@ -140,6 +173,10 @@ export const DataTable = React.forwardRef<
                       <TableHead
                         key={header.id}
                         colSpan={header.colSpan}
+                        style={{
+                          position: "relative",
+                          width: header.column.getSize(),
+                        }} // Use getSize() from the API
                         className="text-center border-x"
                       >
                         {header.isPlaceholder
@@ -148,6 +185,15 @@ export const DataTable = React.forwardRef<
                               header.column.columnDef.header,
                               header.getContext()
                             )}
+                        {header.column.getCanResize() && (
+                          <div
+                            onMouseDown={header.getResizeHandler()}
+                            onTouchStart={header.getResizeHandler()}
+                            className={`resizer ${
+                              header.column.getIsResizing() ? "isResizing" : ""
+                            }`}
+                          ></div>
+                        )}
                       </TableHead>
                     );
                   })}
@@ -162,7 +208,11 @@ export const DataTable = React.forwardRef<
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="text-center border-x">
+                      <TableCell
+                        key={cell.id}
+                        style={{ width: cell.column.getSize() }} // Use getSize() from the API
+                        className="text-center border-x"
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
