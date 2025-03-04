@@ -61,6 +61,7 @@ function Login() {
 
         const result = await setLogin("superadmin", "1234");
         if (!result) {
+          console.log("통신 에러 ===");
           return;
         }
 
