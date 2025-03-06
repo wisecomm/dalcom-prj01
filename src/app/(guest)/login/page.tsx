@@ -2,7 +2,6 @@
 
 import React, { useTransition } from "react";
 import Image from "next/image";
-import { setToken } from "@/app/utils/cookie";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "@/hooks/use-toast";
@@ -10,9 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
-//import { setLogin } from "@/app/(admin)/actions/useSetLogin";
-
-//import { setLogin } from "@/app/api/useSetLogin";
+import { useUserStore, userInfo } from "@/store/useUserStore";
 
 function Login() {
   const router = useRouter();
@@ -36,6 +33,9 @@ function Login() {
 
   const [isPending, startTransition] = useTransition();
 
+  // Correct way to use zustand hooks
+  const saveUser = useUserStore((state) => state.saveUser);
+
   const handleSubmit = (submitData: AccountFormValues) => {
     startTransition(async () => {
       try {
@@ -58,17 +58,15 @@ function Login() {
           return;
         }
 
-        /*
-        const { data, status, error } = await setLogin();
+        const user: userInfo = {
+          id: submitData.userid,
+          email: "google@email.com",
+          name: "홍길동",
+          role: "admin",
+          token: "1234-token",
+        };
+        saveUser(user);
 
-        console.log("handleLogin data=" + data);
-        console.log("handleLogin status=" + status);
-        console.log("handleLogin error=" + error);
-
-        setToken(data.key);
-  */
-
-        setToken("test-token-1234567");
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         router.push("/dashboard");
