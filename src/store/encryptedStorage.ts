@@ -7,7 +7,7 @@ import CryptoJS from "crypto-js";
 
 // 암호화 키 (실제 사용시에는 환경 변수에서 가져오는 것이 좋습니다)
 const ENCRYPTION_KEY =
-  process.env.NEXT_PUBLIC_ENCRYPTION_KEY || "my-encryption-key";
+  process.env.STORAGE_USER_ENCRYPTION_KEY || "my-encryption-key";
 
 const encryptData = (data: string): string => {
   return CryptoJS.AES.encrypt(data, ENCRYPTION_KEY).toString();
