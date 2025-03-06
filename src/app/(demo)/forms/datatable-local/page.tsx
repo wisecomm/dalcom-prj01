@@ -26,11 +26,13 @@ export default function TaskPage() {
   useEffect(() => {
     async function loadData() {
       const data = await fetchData1();
-      setTableData(data);
+      console.log("useEffect==========11:", pagination.totalCount);
       paginationRef.current.totalCount = data.length;
+      console.log("useEffect==========22:", pagination.totalCount);
+      setTableData(data);
     }
     loadData();
-  }, []); // setTotalCount만 의존성으로 추가
+  }, []); 
 
   // 툴바 검색 버튼 클릭 이벤트
   const handleSearch = async () => {

@@ -18,17 +18,18 @@ export default function TaskPage() {
   const tableRef = useRef<DataTableHandle>(null);
   const [tableData, setTableData] = useState<Payment[]>([]);
 
-  //
-  const pagination = usePagination();
   // pagination 참조 유지
+  const pagination = usePagination();
   const paginationRef = useRef(pagination);
 
   // 폼로드 시 데이터 로드 ( 테스트 데이터 )
   useEffect(() => {
     async function loadData() {
       const data = await fetchData1();
-      setTableData(data);
+      console.log("useEffect==========11:", pagination.totalCount);
       paginationRef.current.totalCount = data.length;
+      console.log("useEffect==========22:", pagination.totalCount);
+      setTableData(data);
     }
     loadData();
   }, []);
@@ -52,7 +53,7 @@ export default function TaskPage() {
       pagination.totalCount = 0;
     }
 
-    if (pagination.pageIndex % 2 == 0) {
+    if (pagination.pageIndex % 2 !== 0) {
       const data = await fetchData2();
       pagination.totalCount = data.length * 1000;
       console.log("aaa 111=", pagination.totalCount);
