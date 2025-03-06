@@ -30,7 +30,7 @@ import {
 
 import { DataTablePagination } from "./data-table-pagination";
 import { Table as TanstackTable } from "@tanstack/react-table";
-import { PaginationType } from "./usePagination";
+import { Pagination } from "./usePagination";
 
 export interface DataTableHandle {
   getTableState: () => {
@@ -50,7 +50,7 @@ export interface DataTableHandle {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  pagination?: PaginationType;
+  pagination?: Pagination;
   onPaginationChange?: (updaterOrValue: Updater<PaginationState>) => void;
   DataTableToolbar?: React.ComponentType<{ table: TanstackTable<TData> }>;
 }
