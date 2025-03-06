@@ -21,15 +21,17 @@ export default function TaskPage() {
   //
   const pagination = usePagination();
 
+  const { setTotalCount, setPageIndex, setPageSize } = pagination; // 메서드 추출
+
   // 폼로드 시 데이터 로드 ( 테스트 데이터 )
   useEffect(() => {
     async function loadData() {
       const data = await fetchData1();
       setTableData(data);
-      pagination.totalCount = data.length;
+      setTotalCount(data.length);
     }
     loadData();
-  }, []);
+  }, [setTotalCount]); // setTotalCount만 의존성으로 추가
 
   // 테이블 페이지 변경 이벤트 (서버에서 데이터 가져옴)
   async function onPaginationChange(updaterOrValue: Updater<PaginationState>) {
@@ -38,16 +40,16 @@ export default function TaskPage() {
       //      console.log("New page index:", newState.pageIndex);
 
       // 페이지 정보 샛팅
-      pagination.pageIndex = newState.pageIndex;
-      pagination.pageSize = newState.pageSize;
-      pagination.totalCount = 0;
+      setPageIndex(newState.pageIndex);
+      setPageSize(newState.pageSize);
+      setTotalCount(0);
     } else {
       //      console.log("Direct page index:", updaterOrValue.pageIndex);
 
       // 페이지 정보 샛팅
-      pagination.pageIndex = updaterOrValue.pageIndex;
-      pagination.pageSize = updaterOrValue.pageSize;
-      pagination.totalCount = 0;
+      setPageIndex(updaterOrValue.pageIndex);
+      setPageSize(updaterOrValue.pageSize);
+      setTotalCount(0);
     }
 
     if (pagination.pageIndex % 2 == 0) {

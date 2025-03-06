@@ -19,16 +19,17 @@ export default function TaskPage() {
 
   //
   const pagination = usePagination();
+  const { setTotalCount } = pagination; // 메서드 추출
 
   // 폼로드 시 데이터 로드 ( 테스트 데이터 )
   useEffect(() => {
     async function loadData() {
       const data = await fetchData1();
       setTableData(data);
-      pagination.totalCount = data.length;
+      setTotalCount(data.length);
     }
     loadData();
-  }, []);
+  }, [setTotalCount]); // setTotalCount만 의존성으로 추가
 
   // 툴바 검색 버튼 클릭 이벤트
   const handleSearch = async () => {

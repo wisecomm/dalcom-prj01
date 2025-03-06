@@ -2,7 +2,6 @@
 
 import React, { useState, useTransition } from "react";
 import Image from "next/image";
-import { setToken } from "@/app/utils/cookie";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "@/hooks/use-toast";
@@ -76,12 +75,9 @@ function Login() {
         }
         console.log("성공 : " + JSON.stringify(result.data));
         setLogindata(result.data);
-        if (logindata?.key) {
-          setToken(logindata.key);
-        }
         console.log("성공 : " + logindata?.key);
 
-        setToken("test-token-1234567");
+        // 사용자 정보 저장 필요 ㅎㅎㅎ zustand 사용
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         //        router.push("/dashboard");
