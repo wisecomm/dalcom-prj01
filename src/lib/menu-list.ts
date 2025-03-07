@@ -49,11 +49,11 @@ export function getMenuList(): Group[] {
           icon: SquarePen,
           submenus: [
             {
-              label: "관리자 ",
-              href: "/forms/input",
+              label: "관리자 계정 관리",
+              href: "/admin",
             },
             {
-              label: "관리자 계정 관리",
+              label: "입력화면",
               href: "/forms/input",
             },
             {
