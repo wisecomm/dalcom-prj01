@@ -86,12 +86,12 @@ const AdminList = () => {
   const handleCreateNewComplete = (admin: AdminUser, isNew: boolean) => {
     console.log("admin 처리함 :");
     if (isNew) {
-      // In a real app, we would get the ID from the server
-      const newAdmin = {
-        ...admin,
-        id: Date.now(),
-        createdAt: new Date().toISOString().split("T")[0],
-      };
+      // // In a real app, we would get the ID from the server
+      // const newAdmin = {
+      //   ...admin,
+      //   id: Date.now(),
+      //   createdAt: new Date().toISOString().split("T")[0],
+      // };
       showToastMessageUi(
         `${admin.name} 관리자가 등록되었습니다.`,
         "관리자 등록"
@@ -109,24 +109,29 @@ const AdminList = () => {
     setOpenCreateNewAd(false);
   };
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-  };
+  // const handleSearch = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  // };
   const onPaginationChange = async (
     updaterOrValue: Updater<PaginationState>
-  ) => {};
+  ) => {
+    console.log("onPaginationChange==========11:", updaterOrValue);
+  };
 
   // 폼로드 시 데이터 로드 ( 테스트 데이터 )
   useEffect(() => {
     async function loadData() {
       const data = await fetchData1();
       console.log("useEffect==========11:", pagination.current.totalCount);
-      pagination.current.totalCount = data.length;
+      // pagination 설정을 별도의 useEffect에서 처리
+      if (pagination.current) {
+        pagination.current.totalCount = data.length;
+      }
       console.log("useEffect==========22:", pagination.current.totalCount);
       setTableData(data);
     }
     loadData();
-  }, []);
+  }, [pagination]);
 
   return (
     <>

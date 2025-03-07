@@ -19,20 +19,17 @@ export default function TaskPage() {
 
   //
   const pagination = usePagination();
-  // pagination 참조 유지
-  const paginationRef = useRef(pagination);
 
   // 폼로드 시 데이터 로드 ( 테스트 데이터 )
   useEffect(() => {
     async function loadData() {
       const data = await fetchData1();
-      console.log("useEffect==========11:", pagination.totalCount);
-      paginationRef.current.totalCount = data.length;
-      console.log("useEffect==========22:", pagination.totalCount);
+      console.log("useEffect==========11:", pagination.current.totalCount);
+      pagination.current.totalCount = data.length;
       setTableData(data);
     }
     loadData();
-  }, []); 
+  }, [pagination]);
 
   // 툴바 검색 버튼 클릭 이벤트
   const handleSearch = async () => {
@@ -52,11 +49,11 @@ export default function TaskPage() {
       // 서버에서 데이터 가져오기
       if (tableState.pagination.pageIndex % 2 == 0) {
         const data = await fetchData1();
-        pagination.totalCount = data.length;
+        pagination.current.totalCount = data.length;
         setTableData(data);
       } else {
         const data = await fetchData2();
-        pagination.totalCount = data.length;
+        pagination.current.totalCount = data.length;
         setTableData(data);
       }
     } catch (error) {

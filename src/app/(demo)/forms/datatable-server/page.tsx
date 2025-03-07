@@ -30,7 +30,7 @@ export default function TaskPage() {
       setTableData(data);
     }
     loadData();
-  }, []);
+  }, [pagination]);
 
   // 테이블 페이지 변경 이벤트 (서버에서 데이터 가져옴)
   async function onPaginationChange(updaterOrValue: Updater<PaginationState>) {
