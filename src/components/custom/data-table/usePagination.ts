@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 // usePagination.ts
 export type Pagination = {
@@ -8,7 +8,7 @@ export type Pagination = {
 };
 
 export const usePagination = () => {
-  const [pagination] = useState<Pagination>({
+  const pagination = useRef<Pagination>({
     pageIndex: 0,
     pageSize: 10,
     totalCount: 0,

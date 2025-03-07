@@ -18,17 +18,15 @@ export default function TaskPage() {
   const tableRef = useRef<DataTableHandle>(null);
   const [tableData, setTableData] = useState<Payment[]>([]);
 
-  // pagination 참조 유지
   const pagination = usePagination();
-  const paginationRef = useRef(pagination);
 
   // 폼로드 시 데이터 로드 ( 테스트 데이터 )
   useEffect(() => {
     async function loadData() {
       const data = await fetchData1();
-      console.log("useEffect==========11:", pagination.totalCount);
-      paginationRef.current.totalCount = data.length;
-      console.log("useEffect==========22:", pagination.totalCount);
+      console.log("useEffect==========11:", pagination.current.totalCount);
+      pagination.current.totalCount = data.length;
+      console.log("useEffect==========22:", pagination.current.totalCount);
       setTableData(data);
     }
     loadData();
@@ -37,31 +35,31 @@ export default function TaskPage() {
   // 테이블 페이지 변경 이벤트 (서버에서 데이터 가져옴)
   async function onPaginationChange(updaterOrValue: Updater<PaginationState>) {
     if (typeof updaterOrValue === "function") {
-      const newState = updaterOrValue(pagination);
+      const newState = updaterOrValue(pagination.current);
       //      console.log("New page index:", newState.pageIndex);
 
       // 페이지 정보 샛팅
-      pagination.pageIndex = newState.pageIndex;
-      pagination.pageSize = newState.pageSize;
-      pagination.totalCount = 0;
+      pagination.current.pageIndex = newState.pageIndex;
+      pagination.current.pageSize = newState.pageSize;
+      pagination.current.totalCount = 0;
     } else {
       //      console.log("Direct page index:", updaterOrValue.pageIndex);
 
       // 페이지 정보 샛팅
-      pagination.pageIndex = updaterOrValue.pageIndex;
-      pagination.pageSize = updaterOrValue.pageSize;
-      pagination.totalCount = 0;
+      pagination.current.pageIndex = updaterOrValue.pageIndex;
+      pagination.current.pageSize = updaterOrValue.pageSize;
+      pagination.current.totalCount = 0;
     }
 
-    if (pagination.pageIndex % 2 !== 0) {
+    if (pagination.current.pageIndex % 2 !== 0) {
       const data = await fetchData2();
-      pagination.totalCount = data.length * 1000;
-      console.log("aaa 111=", pagination.totalCount);
+      pagination.current.totalCount = data.length * 1000;
+      //      console.log("aaa 111=", pagination.totalCount);
       setTableData(data);
     } else {
       const data = await fetchData1();
-      pagination.totalCount = data.length;
-      console.log("aaa 222=", pagination.totalCount);
+      pagination.current.totalCount = data.length;
+      //      console.log("aaa 222=", pagination.totalCount);
       setTableData(data);
     }
   }
@@ -96,11 +94,11 @@ export default function TaskPage() {
       // 서버에서 데이터 가져오기
       if (tableState.pagination.pageIndex % 2 == 0) {
         const data = await fetchData1();
-        pagination.totalCount = data.length;
+        pagination.current.totalCount = data.length;
         setTableData(data);
       } else {
         const data = await fetchData2();
-        pagination.totalCount = data.length;
+        pagination.current.totalCount = data.length;
         setTableData(data);
       }
     } catch (error) {
@@ -136,7 +134,7 @@ export default function TaskPage() {
           DataTableToolbar={PageDtToolbarPropsToolbar}
           data={tableData}
           columns={columns}
-          pagination={pagination}
+          pagination={pagination.current}
           onPaginationChange={onPaginationChange}
         />
       </div>
