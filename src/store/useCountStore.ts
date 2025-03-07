@@ -1,31 +1,37 @@
 import { create } from "zustand";
 
 type CounterStore = {
-  count: number;
-  increment: () => void;
-  incrementAsync: () => Promise<void>;
-  decrement: () => void;
-  reset: () => void;
+    count: number;
+};
+
+interface Actions {
+  actions: {
+    increase: () => void
+    increaseAsync: () => void
+    decrease: () => void
+    resetState: () => void
+}
 };
 
 const initialState = { // initialState 추가
   count: 0,
 };
 
-export const useCounterStore = create<CounterStore>((set) => ({
+export const useCounterStore = create<CounterStore & Actions>((set) => ({
     ...initialState,
-
-  increment: () => {
-    set((state) => ({ count: state.count + 1 }));
-  },
-  incrementAsync: async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    set((state) => ({ count: state.count + 1 }));
-  },
-  decrement: () => {
-    set((state) => ({ count: state.count - 1 }));
-  },
-  reset: () => {
-    set({ ...initialState });
-  },
+    actions: {
+        increase: () => {
+            set((state) => ({ count: state.count + 1 }));
+        },
+        increaseAsync: async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            set((state) => ({ count: state.count + 1 }));
+        },
+        decrease: () => {
+            set((state) => ({ count: state.count - 1 }));
+        },
+        resetState: () => {
+            set({ ...initialState });
+        },
+    }
 }));
