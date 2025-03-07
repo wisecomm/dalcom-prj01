@@ -66,7 +66,8 @@ const AdminList = () => {
         const tableState = tableRef.current.getTableState();
         if (tableState.selectRows.rows.length === 0) {
           setSelectedAdmin(null);
-          console.log("선택된 로우가 없습니다.");
+
+          showToastMessageUi(`수정할 대상을 선택하세요.`, "관리자 수정");
           return;
         }
         // 선택된 로우 정보 가져오기
