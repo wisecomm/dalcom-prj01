@@ -28,7 +28,7 @@ function LoginPage() {
 
   return (
     <div className="page">
-      <Card className="w-[400px]">
+      <Card className="w-400">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">로그인</CardTitle>
           <CardDescription>로그인을 위한 정보를 입력해주세요.</CardDescription>

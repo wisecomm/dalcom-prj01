@@ -51,7 +51,7 @@ export const columns: ColumnDef<AdminUser>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex items-center justify-center space-x-2">
-        <div className="w-[30px]">{row.getValue("id")}</div>
+        <div className="w-30">{row.getValue("id")}</div>
       </div>
     ),
     enableSorting: false,
@@ -65,7 +65,7 @@ export const columns: ColumnDef<AdminUser>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-center">
-          <span className="w-[500px]">{row.getValue("name")}</span>
+          <span className="w-500">{row.getValue("name")}</span>
         </div>
       );
     },
@@ -77,8 +77,9 @@ export const columns: ColumnDef<AdminUser>[] = [
     ),
     cell: ({ row }) => {
       return (
+        // <div className="text-center w-100">{row.getValue("email")}</div>
         <div className="flex items-center justify-center">
-          <span className="w-[100px]">{row.getValue("email")}</span>
+          <span className="w-100">{row.getValue("email")}</span>
         </div>
       );
     },
@@ -91,7 +92,7 @@ export const columns: ColumnDef<AdminUser>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-center">
-          <span className="w-[100px]">{row.getValue("role")}</span>
+          <span className="w-100">{row.getValue("role")}</span>
         </div>
       );
     },
@@ -104,7 +105,7 @@ export const columns: ColumnDef<AdminUser>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-center">
-          <span className="w-[100px]">{row.getValue("createdAt")}</span>
+          <span className="w-100">{row.getValue("createdAt")}</span>
         </div>
       );
     },

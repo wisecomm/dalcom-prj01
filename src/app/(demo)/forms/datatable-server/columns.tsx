@@ -51,7 +51,7 @@ export const columns: ColumnDef<Payment>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex items-center justify-center space-x-2">
-        <div className="w-[80px]">{row.getValue("id")}</div>
+        <div className="w-80">{row.getValue("id")}</div>
       </div>
     ),
     enableSorting: false,
@@ -65,7 +65,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-center">
-          <span className="w-[500px]">
+          <span className="w-500">
             {row.getValue("title")}
           </span>
         </div>
@@ -80,7 +80,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-center">
-          <span className="w-[100px]">{row.getValue("email")}</span>
+          <span className="w-100">{row.getValue("email")}</span>
         </div>
       );
     },
@@ -93,7 +93,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-center">
-          <span className="w-[10px]">{row.getValue("amount")}</span>
+          <span className="w-10">{row.getValue("amount")}</span>
         </div>
       );
     },
