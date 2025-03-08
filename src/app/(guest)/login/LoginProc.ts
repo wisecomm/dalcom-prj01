@@ -1,4 +1,4 @@
-import { ApiData, ApiResponse, xfetch } from "@/procx/XFetch";
+import { ApiData, ApiResponse, x_fetch } from "@/procx/XFetch";
 
 export interface ILoginData {
   corp_code: string;
@@ -15,7 +15,7 @@ export const setLogin = async (user_id: string, user_pwd: string) => {
   params.append("user_id", user_id);
   params.append("user_pwd", user_pwd);
 
-  const response = await xfetch.post<ApiResponse>(
+  const response = await x_fetch.post<ApiResponse>(
     `/astroapi/base/v2/auth/adminlogin?${params.toString()}`
   );
 

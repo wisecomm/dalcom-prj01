@@ -9,13 +9,13 @@ import {
 } from "@/components/custom/data-table/data-table";
 import { PageDtToolbarPropsToolbar } from "./page-dt-toolbar";
 import { Button } from "@/components/ui/button";
+import { fetchData1 } from "./test-data";
 import { usePagination } from "@/components/custom/data-table/usePagination";
 import { PaginationState, Updater } from "@tanstack/table-core";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { DalAlertDialog } from "@/components/ui-etc/dal-alert-dialog";
 import AdminDialog from "./AdminDialog";
 import { showToastMessageUi } from "@/components/utils/toastUtilsUi";
-import { ApiResponse, x_fetch } from "@/procx/XFetch";
 
 const AdminList = () => {
   const tableRef = useRef<DataTableHandle>(null);
@@ -122,28 +122,17 @@ const AdminList = () => {
   // 폼로드 시 데이터 로드 ( 테스트 데이터 )
   useEffect(() => {
     async function loadData() {
-      const response = await x_fetch.get<ApiResponse>(
-        `/users`
-      );
-
-      console.log("success 1111===" + response.isSuccess);
-
-      if (!response.isSuccess) {
-        console.log(
-          "실패: errCode:" + response.errCode + " errMsg:" + response.errMsg
-        );
-        return;
+      const data = await fetchData1();
+      console.log("useEffect==========11:", pagination.current.totalCount);
+      // pagination 설정을 별도의 useEffect에서 처리
+      if (pagination.current) {
+        pagination.current.totalCount = data.length;
       }
-
-//      console.log("success 1111===" + JSON.stringify(response));
-      const resData = response.data as unknown as AdminUser[];
-      // danyoh : 테스트 상 10 페이지 로 처리 
-      pagination.current.totalCount = resData.length*10;
-
-      setTableData(resData);
+      console.log("useEffect==========22:", pagination.current.totalCount);
+      setTableData(data);
     }
     loadData();
-  }, []);
+  }, [pagination]);
 
   return (
     <>

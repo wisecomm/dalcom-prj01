@@ -5,25 +5,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "@/components/custom/data-table/data-table-column-header";
 
-export type GeoLocation = {
-  lat: string;
-  lng: string;
-};
-
-export type Address = {
-  street: string;
-  suite: string;
-  city: string;
-  zipcode: string;
-  geo: GeoLocation;
-};
-
 export type AdminUser = {
   id: number;
   name: string;
-  username: string;
   email: string;
-  address: Address | null;
+  role: string;
+  createdAt: string;
 };
 
 export const columns: ColumnDef<AdminUser>[] = [
@@ -64,7 +51,7 @@ export const columns: ColumnDef<AdminUser>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex items-center justify-center space-x-2">
-        <div className="w-[30px]">{row.getValue("id")}</div>
+        <div className="w-30">{row.getValue("id")}</div>
       </div>
     ),
     enableSorting: false,
@@ -78,7 +65,7 @@ export const columns: ColumnDef<AdminUser>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-center">
-          <span className="w-[500px]">{row.getValue("name")}</span>
+          <span className="w-500">{row.getValue("name")}</span>
         </div>
       );
     },
@@ -91,36 +78,34 @@ export const columns: ColumnDef<AdminUser>[] = [
     cell: ({ row }) => {
       return (
         // <div className="text-center w-100">{row.getValue("email")}</div>
-        <div className="flex items-center justify-center w-full text-center">
-          <span className="min-w-[100px]">
-            {row.getValue("email")}
-          </span>
+        <div className="flex items-center justify-center">
+          <span className="w-100">{row.getValue("email")}</span>
         </div>
       );
     },
   },
   {
-    accessorKey: "phone",
+    accessorKey: "role",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="전화번호" />
+      <DataTableColumnHeader column={column} title="권 한" />
     ),
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-center">
-          <span className="w-[200px]">{row.getValue("phone")}</span>
+          <span className="w-100">{row.getValue("role")}</span>
         </div>
       );
     },
   },
   {
-    accessorKey: "website",
+    accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="웹사이트" />
+      <DataTableColumnHeader column={column} title="생성일" />
     ),
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-center">
-          <span className="w-[100px]">{row.getValue("website")}</span>
+          <span className="w-100">{row.getValue("createdAt")}</span>
         </div>
       );
     },

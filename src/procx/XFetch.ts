@@ -239,7 +239,7 @@ export class XFetch {
 }
 
 // 기본 인스턴스 생성 및 내보내기
-export const xfetch = XFetch.create();
+export const x_fetch = XFetch.create();
 
 // 특정 베이스 URL을 사용하는 인스턴스 생성 예시
 // export const apiClient = XFetch.create('https://api.example.com');

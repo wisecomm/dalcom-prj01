@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AdminUser } from "./columns";
+import { AdminUser } from "@/types/admin";
 import { useState, useEffect } from "react";
 import { Save, ArrowLeft } from "lucide-react";
 
@@ -38,8 +38,7 @@ const AdminDialog = ({
     {
       name: "",
       email: "",
-      username: "",
-      address: null,
+      role: "시스템 관리자",
     }
   );
 
@@ -50,15 +49,14 @@ const AdminDialog = ({
       setFormData({
         name: admin.name,
         email: admin.email,
-        username: admin.username,
-        address: admin.address,
+        role: admin.role,
       });
     } else {
       setFormData({
         name: "",
         email: "",
-        username: "",
-        address: null,});
+        role: "시스템 관리자",
+      });
     }
   }, [admin, isOpen]);
 
@@ -86,6 +84,7 @@ const AdminDialog = ({
         {
           ...formData,
           id: admin.id,
+          createdAt: admin.createdAt,
         },
         false
       );
@@ -146,7 +145,7 @@ const AdminDialog = ({
               <Label htmlFor="role" className="text-right">
                 역할
               </Label>
-              <Select value={formData.username} onValueChange={handleRoleChange}>
+              <Select value={formData.role} onValueChange={handleRoleChange}>
                 <SelectTrigger id="role" className="col-span-3">
                   <SelectValue placeholder="역할 선택" />
                 </SelectTrigger>
