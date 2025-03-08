@@ -116,6 +116,8 @@ const AdminList = () => {
   const onPaginationChange = async (
     updaterOrValue: Updater<PaginationState>
   ) => {
+    setTableData([]);
+
     console.log("onPaginationChange==========11:", updaterOrValue);
     if (typeof updaterOrValue === "function") {
       const newState = updaterOrValue(pagination.current);
