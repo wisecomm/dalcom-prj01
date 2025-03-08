@@ -117,31 +117,50 @@ const AdminList = () => {
     updaterOrValue: Updater<PaginationState>
   ) => {
     console.log("onPaginationChange==========11:", updaterOrValue);
+    if (typeof updaterOrValue === "function") {
+      const newState = updaterOrValue(pagination.current);
+      //      console.log("New page index:", newState.pageIndex);
+
+      // 페이지 정보 샛팅
+      pagination.current.pageIndex = newState.pageIndex;
+      pagination.current.pageSize = newState.pageSize;
+      pagination.current.totalCount = 0;
+    } else {
+      //      console.log("Direct page index:", updaterOrValue.pageIndex);
+
+      // 페이지 정보 샛팅
+      pagination.current.pageIndex = updaterOrValue.pageIndex;
+      pagination.current.pageSize = updaterOrValue.pageSize;
+      pagination.current.totalCount = 0;
+    }
+    // 페이지 정보 로딩
+    loadData(); 
   };
+  async function loadData() {
+    const response = await x_fetch.get<ApiResponse>(
+      `/users`
+    );
+
+    console.log("success 1111===" + response.isSuccess);
+
+    if (!response.isSuccess) {
+      console.log(
+        "실패: errCode:" + response.errCode + " errMsg:" + response.errMsg
+      );
+      return;
+    }
+
+//      console.log("success 1111===" + JSON.stringify(response));
+    const resData = response.data as unknown as AdminUser[];
+    // danyoh : 테스트 상 10 페이지 로 처리 
+    pagination.current.totalCount = resData.length*10;
+
+    setTableData(resData);
+  }
+
 
   // 폼로드 시 데이터 로드 ( 테스트 데이터 )
   useEffect(() => {
-    async function loadData() {
-      const response = await x_fetch.get<ApiResponse>(
-        `/users`
-      );
-
-      console.log("success 1111===" + response.isSuccess);
-
-      if (!response.isSuccess) {
-        console.log(
-          "실패: errCode:" + response.errCode + " errMsg:" + response.errMsg
-        );
-        return;
-      }
-
-//      console.log("success 1111===" + JSON.stringify(response));
-      const resData = response.data as unknown as AdminUser[];
-      // danyoh : 테스트 상 10 페이지 로 처리 
-      pagination.current.totalCount = resData.length*10;
-
-      setTableData(resData);
-    }
     loadData();
   }, []);
 
