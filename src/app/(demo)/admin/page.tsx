@@ -15,7 +15,7 @@ import { Pencil, Plus, Trash2 } from "lucide-react";
 import { DalAlertDialog } from "@/components/ui-etc/dal-alert-dialog";
 import AdminDialog from "./AdminDialog";
 import { showToastMessageUi } from "@/components/utils/toastUtilsUi";
-import { ApiResponse, x_fetch } from "@/procx/XFetch";
+import { x_fetch } from "@/procx/XFetch";
 
 const AdminList = () => {
   const tableRef = useRef<DataTableHandle>(null);
@@ -136,30 +136,26 @@ const AdminList = () => {
       pagination.current.totalCount = 0;
     }
     // 페이지 정보 로딩
-    loadData(); 
+    loadData();
   };
   async function loadData() {
-    const response = await x_fetch.get<ApiResponse>(
-      `/users`
-    );
+    const apiResponse = await x_fetch.get(`/users`);
 
-    console.log("success 1111===" + response.isSuccess);
+    console.log("success 1111===" + apiResponse.isSuccess);
 
-    if (!response.isSuccess) {
+    if (!apiResponse.isSuccess) {
       console.log(
-        "실패: errCode:" + response.errCode + " errMsg:" + response.errMsg
+        "실패: errCode:" + apiResponse.errCode + " errMsg:" + apiResponse.errMsg
       );
       return;
     }
 
-//      console.log("success 1111===" + JSON.stringify(response));
-    const resData = response.data as unknown as AdminUser[];
-    // danyoh : 테스트 상 10 페이지 로 처리 
-    pagination.current.totalCount = resData.length*10;
+    //      console.log("success 1111===" + JSON.stringify(apiResponse.data));
+    // danyoh : 테스트 상 10 페이지 로 처리
+    pagination.current.totalCount = apiResponse.data.length * 10;
 
-    setTableData(resData);
+    setTableData(apiResponse.data);
   }
-
 
   // 폼로드 시 데이터 로드 ( 테스트 데이터 )
   useEffect(() => {

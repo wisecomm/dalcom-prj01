@@ -11,8 +11,8 @@ export interface ApiData<T = any> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface ApiResponse<T = any> {
-  data: T | null;
+export interface ApiResponse {
+  data: [];
   errCode: number | null;
   errMsg: string | null;
   isSuccess: boolean;
@@ -99,12 +99,12 @@ export class XFetch {
 
   // 요청 실행 및 응답 처리
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private async request<T = any>(
+  private async request(
     method: RequestMethodType,
     endpoint: string,
     body?: unknown,
     options: RequestOptions = {}
-  ): Promise<ApiResponse<T>> {
+  ): Promise<ApiResponse> {
     const url = this.getUrl(endpoint);
     const headers = this.getHeaders(options.headers);
 
@@ -151,7 +151,7 @@ export class XFetch {
         }
 
         return {
-          data: null,
+          data: [],
           errCode: response.status,
           errMsg: errorData?.message || response.statusText,
           isSuccess: false,
@@ -160,21 +160,21 @@ export class XFetch {
 
       // 응답 본문이 있는지 확인 (204 No Content 등의 경우)
       const contentType = response.headers.get("content-type");
-      let data: T | null = null;
 
       if (contentType?.includes("application/json")) {
-        data = await response.json();
-      } else if (response.status !== 204) {
-        // 텍스트로 응답 받기
-        const text = await response.text();
-        data = text as unknown as T;
+        return {
+          data: await response.json(),
+          errCode: null,
+          errMsg: null,
+          isSuccess: true,
+        };
       }
-
+      //  else if (response.status !== 204) {
       return {
-        data,
-        errCode: null,
-        errMsg: null,
-        isSuccess: true,
+        data: [],
+        errCode: response.status,
+        errMsg: await response.text(),
+        isSuccess: false,
       };
     } catch (error) {
       // 타임아웃 제거
@@ -185,7 +185,7 @@ export class XFetch {
         error instanceof DOMException && error.name === "AbortError";
 
       return {
-        data: null,
+        data: [],
         errCode: isTimeout ? 408 : 0,
         errMsg: isTimeout ? "Request timeout" : getErrorMessage(error),
         isSuccess: false,
@@ -194,47 +194,42 @@ export class XFetch {
   }
 
   // HTTP 메서드 구현
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async get<T = any>(
+  async get(
     endpoint: string,
     options: RequestOptions = {}
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>("GET", endpoint, undefined, options);
+  ): Promise<ApiResponse> {
+    return this.request("GET", endpoint, undefined, options);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async post<T = any>(
+  async post(
     endpoint: string,
     data?: unknown,
     options: RequestOptions = {}
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>("POST", endpoint, data, options);
+  ): Promise<ApiResponse> {
+    return this.request("POST", endpoint, data, options);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async put<T = any>(
+  async put(
     endpoint: string,
     data?: unknown,
     options: RequestOptions = {}
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>("PUT", endpoint, data, options);
+  ): Promise<ApiResponse> {
+    return this.request("PUT", endpoint, data, options);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async patch<T = any>(
+  async patch(
     endpoint: string,
     data?: unknown,
     options: RequestOptions = {}
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>("PATCH", endpoint, data, options);
+  ): Promise<ApiResponse> {
+    return this.request("PATCH", endpoint, data, options);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async delete<T = any>(
+  async delete(
     endpoint: string,
     options: RequestOptions = {}
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>("DELETE", endpoint, undefined, options);
+  ): Promise<ApiResponse> {
+    return this.request("DELETE", endpoint, undefined, options);
   }
 }
 
