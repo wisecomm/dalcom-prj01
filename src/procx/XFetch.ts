@@ -2,17 +2,9 @@ import { getToken } from "./cookie";
 
 export type RequestMethodType = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
-// 응답 타입 정의
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface ApiData<T = any> {
-  code: string;
-  message: string | null;
-  data: T | null;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface ApiResponse {
-  data: [];
+export interface ApiResponse<T = any> {
+  data: T;
   errCode: number | null;
   errMsg: string | null;
   isSuccess: boolean;
@@ -99,12 +91,12 @@ export class XFetch {
 
   // 요청 실행 및 응답 처리
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private async request(
+  private async request<T = any>(
     method: RequestMethodType,
     endpoint: string,
     body?: unknown,
     options: RequestOptions = {}
-  ): Promise<ApiResponse> {
+  ): Promise<ApiResponse<T>> {
     const url = this.getUrl(endpoint);
     const headers = this.getHeaders(options.headers);
 
@@ -150,8 +142,11 @@ export class XFetch {
           errorData = getErrorMessage(e);
         }
 
+        // FIX: Handle typed empty array properly for error responses
+        const emptyResult = Array.isArray([] as unknown as T) ? [] : null;
+
         return {
-          data: [],
+          data: emptyResult as T,
           errCode: response.status,
           errMsg: errorData?.message || response.statusText,
           isSuccess: false,
@@ -162,16 +157,20 @@ export class XFetch {
       const contentType = response.headers.get("content-type");
 
       if (contentType?.includes("application/json")) {
+        const jsonData = await response.json();
         return {
-          data: await response.json(),
+          data: jsonData as T,
           errCode: null,
           errMsg: null,
           isSuccess: true,
         };
       }
-      //  else if (response.status !== 204) {
+
+      // FIX: Handle typed empty array properly for non-JSON responses
+      const emptyResult = Array.isArray([] as unknown as T) ? [] : null;
+
       return {
-        data: [],
+        data: emptyResult as T,
         errCode: response.status,
         errMsg: await response.text(),
         isSuccess: false,
@@ -184,8 +183,11 @@ export class XFetch {
       const isTimeout =
         error instanceof DOMException && error.name === "AbortError";
 
+      // FIX: Handle typed empty array properly for errors
+      const emptyResult = Array.isArray([] as unknown as T) ? [] : null;
+
       return {
-        data: [],
+        data: emptyResult as T,
         errCode: isTimeout ? 408 : 0,
         errMsg: isTimeout ? "Request timeout" : getErrorMessage(error),
         isSuccess: false,
@@ -194,42 +196,47 @@ export class XFetch {
   }
 
   // HTTP 메서드 구현
-  async get(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async get<T = any>(
     endpoint: string,
     options: RequestOptions = {}
-  ): Promise<ApiResponse> {
-    return this.request("GET", endpoint, undefined, options);
+  ): Promise<ApiResponse<T>> {
+    return this.request<T>("GET", endpoint, undefined, options);
   }
 
-  async post(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async post<T = any>(
     endpoint: string,
     data?: unknown,
     options: RequestOptions = {}
-  ): Promise<ApiResponse> {
-    return this.request("POST", endpoint, data, options);
+  ): Promise<ApiResponse<T>> {
+    return this.request<T>("POST", endpoint, data, options);
   }
 
-  async put(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async put<T = any>(
     endpoint: string,
     data?: unknown,
     options: RequestOptions = {}
-  ): Promise<ApiResponse> {
-    return this.request("PUT", endpoint, data, options);
+  ): Promise<ApiResponse<T>> {
+    return this.request<T>("PUT", endpoint, data, options);
   }
 
-  async patch(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async patch<T = any>(
     endpoint: string,
     data?: unknown,
     options: RequestOptions = {}
-  ): Promise<ApiResponse> {
-    return this.request("PATCH", endpoint, data, options);
+  ): Promise<ApiResponse<T>> {
+    return this.request<T>("PATCH", endpoint, data, options);
   }
 
-  async delete(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async delete<T = any>(
     endpoint: string,
     options: RequestOptions = {}
-  ): Promise<ApiResponse> {
-    return this.request("DELETE", endpoint, undefined, options);
+  ): Promise<ApiResponse<T>> {
+    return this.request<T>("DELETE", endpoint, undefined, options);
   }
 }
 

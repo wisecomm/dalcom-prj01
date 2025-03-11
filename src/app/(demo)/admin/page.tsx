@@ -138,11 +138,11 @@ const AdminList = () => {
     // 페이지 정보 로딩
     loadData();
   };
+
+  // 사용 예시
   async function loadData() {
-    const apiResponse = await x_fetch.get(`/users`);
-
-    console.log("success 1111===" + apiResponse.isSuccess);
-
+    // AdminUser[] 타입으로 명시적 지정
+    const apiResponse = await x_fetch.get<AdminUser[]>(`/users`);
     if (!apiResponse.isSuccess) {
       console.log(
         "실패: errCode:" + apiResponse.errCode + " errMsg:" + apiResponse.errMsg
@@ -150,11 +150,10 @@ const AdminList = () => {
       return;
     }
 
-    //      console.log("success 1111===" + JSON.stringify(apiResponse.data));
-    // danyoh : 테스트 상 10 페이지 로 처리
-    pagination.current.totalCount = apiResponse.data.length * 10;
-
-    setTableData(apiResponse.data);
+    // apiResponse.data는 이제 AdminUser[] 타입
+    const adminUsers = apiResponse.data;
+    pagination.current.totalCount = adminUsers.length * 10;
+    setTableData(adminUsers);
   }
 
   // 폼로드 시 데이터 로드 ( 테스트 데이터 )
