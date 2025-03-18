@@ -136,11 +136,11 @@ const AdminList = () => {
       pagination.current.totalCount = 0;
     }
     // 페이지 정보 로딩
-    loadData();
+    fetchLoadData();
   };
 
   // 사용 예시
-  async function loadData() {
+  const fetchLoadData = async () => {
     // AdminUser[] 타입으로 명시적 지정
     const apiResponse = await x_fetch.get<AdminUser[]>(`/users`);
     if (!apiResponse.isSuccess) {
@@ -154,11 +154,11 @@ const AdminList = () => {
     const adminUsers = apiResponse.data;
     pagination.current.totalCount = adminUsers.length * 10;
     setTableData(adminUsers);
-  }
+  };
 
   // 폼로드 시 데이터 로드 ( 테스트 데이터 )
   useEffect(() => {
-    loadData();
+    fetchLoadData();
   }, []);
 
   return (

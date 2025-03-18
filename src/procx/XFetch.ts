@@ -5,9 +5,10 @@ export type RequestMethodType = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface ApiResponse<T = any> {
   data: T;
-  errCode: number | null;
-  errMsg: string | null;
+  code: string;
+  message: string | null;
   isSuccess: boolean;
+  status: number | null;
 }
 
 // 요청 옵션 타입 정의
@@ -147,8 +148,9 @@ export class XFetch {
 
         return {
           data: emptyResult as T,
-          errCode: response.status,
-          errMsg: errorData?.message || response.statusText,
+          code: errorData?.code || "",
+          message: errorData?.message || response.statusText,
+          status: response.status,
           isSuccess: false,
         };
       }
@@ -156,12 +158,14 @@ export class XFetch {
       // 응답 본문이 있는지 확인 (204 No Content 등의 경우)
       const contentType = response.headers.get("content-type");
 
+      // danyoh : 서버 응답에 따라 처리
       if (contentType?.includes("application/json")) {
         const jsonData = await response.json();
         return {
-          data: jsonData as T,
-          errCode: null,
-          errMsg: null,
+          data: jsonData.data as T,
+          code: jsonData.code || "",
+          message: jsonData.message,
+          status: response.status,
           isSuccess: true,
         };
       }
@@ -171,8 +175,9 @@ export class XFetch {
 
       return {
         data: emptyResult as T,
-        errCode: response.status,
-        errMsg: await response.text(),
+        code: "",
+        message: await response.text(),
+        status: response.status,
         isSuccess: false,
       };
     } catch (error) {
@@ -188,8 +193,9 @@ export class XFetch {
 
       return {
         data: emptyResult as T,
-        errCode: isTimeout ? 408 : 0,
-        errMsg: isTimeout ? "Request timeout" : getErrorMessage(error),
+        code: "",
+        message: isTimeout ? "Request timeout" : getErrorMessage(error),
+        status: isTimeout ? 408 : 0,
         isSuccess: false,
       };
     }
