@@ -145,7 +145,7 @@ const AdminList = () => {
     const apiResponse = await x_fetch.get<AdminUser[]>(`/users`);
     if (!apiResponse.isSuccess) {
       console.log(
-        "실패: errCode:" + apiResponse.errCode + " errMsg:" + apiResponse.errMsg
+        "실패: status:" + apiResponse.status + " message:" + apiResponse.message
       );
       return;
     }
