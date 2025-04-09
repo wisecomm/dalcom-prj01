@@ -16,7 +16,7 @@ export const getCookie = (name: string): string | null => {
   return null;
 };
 
-export const getToken = () => {
+export const getTokenKKK = () => {
   return getCookie("accessToken");
 };
 export const setToken = (token: string) => {

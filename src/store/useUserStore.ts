@@ -9,12 +9,14 @@ export interface userInfo {
   name: string;
   role: string;
   token: string;
+  token_refresh: string;
 }
 
 interface userInfoProps {
   isLogin: boolean; // 로그인 여부
   user: userInfo | null; // 유저 정보
   token: string | null; // 토큰
+  token_refresh: string | null; // 토큰
   saveUser: (user: userInfo) => void; // 유저 정보 저장
   logout: () => void; // 로그아웃
 }
@@ -26,6 +28,7 @@ export const useUserStore = create(
         isLogin: false,
         user: null,
         token: null,
+        token_refresh: null,
 
         saveUser: (user) => {
           set({ user, isLogin: true, token: user.token });

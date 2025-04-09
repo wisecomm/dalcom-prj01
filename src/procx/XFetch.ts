@@ -2,13 +2,20 @@ import { getToken } from "./cookie";
 
 export type RequestMethodType = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
+// 응답 타입 정의
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface ApiResponse<T = any> {
-  data: T;
+export interface ApiData<T = any> {
   code: string;
   message: string | null;
+  data: T | null;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface ApiResponse<T = any> {
+  data: T | null;
+  errCode: number | null;
+  errMsg: string | null;
   isSuccess: boolean;
-  status: number | null;
 }
 
 // 요청 옵션 타입 정의
@@ -143,42 +150,31 @@ export class XFetch {
           errorData = getErrorMessage(e);
         }
 
-        // FIX: Handle typed empty array properly for error responses
-        const emptyResult = Array.isArray([] as unknown as T) ? [] : null;
-
         return {
-          data: emptyResult as T,
-          code: errorData?.code || "",
-          message: errorData?.message || response.statusText,
-          status: response.status,
+          data: null,
+          errCode: response.status,
+          errMsg: errorData?.message || response.statusText,
           isSuccess: false,
         };
       }
 
       // 응답 본문이 있는지 확인 (204 No Content 등의 경우)
       const contentType = response.headers.get("content-type");
+      let data: T | null = null;
 
-      // danyoh : 서버 응답에 따라 처리
       if (contentType?.includes("application/json")) {
-        const jsonData = await response.json();
-        return {
-          data: jsonData.data as T,
-          code: jsonData.code || "",
-          message: jsonData.message,
-          status: response.status,
-          isSuccess: true,
-        };
+        data = await response.json();
+      } else if (response.status !== 204) {
+        // 텍스트로 응답 받기
+        const text = await response.text();
+        data = text as unknown as T;
       }
 
-      // FIX: Handle typed empty array properly for non-JSON responses
-      const emptyResult = Array.isArray([] as unknown as T) ? [] : null;
-
       return {
-        data: emptyResult as T,
-        code: "",
-        message: await response.text(),
-        status: response.status,
-        isSuccess: false,
+        data,
+        errCode: null,
+        errMsg: null,
+        isSuccess: true,
       };
     } catch (error) {
       // 타임아웃 제거
@@ -188,14 +184,10 @@ export class XFetch {
       const isTimeout =
         error instanceof DOMException && error.name === "AbortError";
 
-      // FIX: Handle typed empty array properly for errors
-      const emptyResult = Array.isArray([] as unknown as T) ? [] : null;
-
       return {
-        data: emptyResult as T,
-        code: "",
-        message: isTimeout ? "Request timeout" : getErrorMessage(error),
-        status: isTimeout ? 408 : 0,
+        data: null,
+        errCode: isTimeout ? 408 : 0,
+        errMsg: isTimeout ? "Request timeout" : getErrorMessage(error),
         isSuccess: false,
       };
     }

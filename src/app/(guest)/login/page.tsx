@@ -8,12 +8,13 @@ import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
 import { useUserStore, userInfo } from "@/store/useUserStore";
+import { setLogin } from "./LoginProc";
+import { useRouter } from "next/navigation";
 
 function Login() {
   const router = useRouter();
-
+  
   const accountFormSchema = z.object({
     userid: z.string().min(1, {
       message: "사용자 아이디을 입력하세요.",
@@ -24,8 +25,8 @@ function Login() {
   });
   type AccountFormValues = z.infer<typeof accountFormSchema>;
   const defaultValues: Partial<AccountFormValues> = {
-    userid: "홍길동",
-    password: "",
+    userid: "danyoh",
+    password: "1234",
   };
   const formData = useForm<AccountFormValues>({
     defaultValues,
@@ -37,6 +38,7 @@ function Login() {
   const saveUser = useUserStore((state) => state.saveUser);
 
   const handleSubmit = (submitData: AccountFormValues) => {
+
     startTransition(async () => {
       try {
         console.log(submitData);
@@ -57,7 +59,7 @@ function Login() {
           });
           return;
         }
-
+/* 테스트 코드
         const user: userInfo = {
           id: submitData.userid,
           email: "google@email.com",
@@ -66,10 +68,37 @@ function Login() {
           token: "1234-token",
         };
         saveUser(user);
-
         await new Promise((resolve) => setTimeout(resolve, 1000));
-
         router.push("/dashboard");
+*/
+
+        const apiReturn = await setLogin(submitData.userid, submitData.password);
+        if(!apiReturn) {
+          console.log("로그인 실패1=" + JSON.stringify(apiReturn));
+          return;
+        }
+
+        if(apiReturn.code !== "0000") {
+          console.log("로그인 실패2=" + JSON.stringify(apiReturn));
+          return;
+        }
+
+        const apData = apiReturn.data;
+        console.log("로그인 성공1=" + JSON.stringify(apData));
+        const user: userInfo = {
+          id: submitData.userid,
+          email: "google@email.com",
+          name: apData.name,
+          role: "role",
+          token: apData.access_token,
+          token_refresh: apData.refresh_token,
+        };
+        saveUser(user);
+        router.push("/dashboard");
+
+
+        //  await new Promise((resolve) => setTimeout(resolve, 1000));
+        //  router.push("/dashboard");
       } catch (error) {
         console.log("onSubmit error: " + error);
       }
