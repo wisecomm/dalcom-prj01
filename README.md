@@ -36,3 +36,6 @@
 #### Sheet menu
 
 <img src="/screenshots/screenshot-4.png" width="300">
+
+
+npm install tailwindcss-animate --legacy-peer-deps
