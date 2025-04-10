@@ -1,4 +1,4 @@
-import { getToken } from "./cookie";
+import { getToken, getTokenRefresh } from "@/store/useUserStore";
 
 export type RequestMethodType = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -90,8 +90,11 @@ export class XFetch {
 
     // 인증 토큰이 있으면 추가
     const token = getToken();
+    const tokenRefresh = getTokenRefresh();
+    console.log("token ===" + token);
     if (token) {
       headers.append("Authorization", `Bearer ${token}`);
+      headers.append("x-refresh-token", `Bearer ${tokenRefresh}`);
     }
 
     return headers;

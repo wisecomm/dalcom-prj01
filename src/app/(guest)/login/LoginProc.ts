@@ -12,11 +12,11 @@ export interface ILoginData {
 
 export const setLogin = async (user_id: string, user_pwd: string) => {
   const params = new URLSearchParams();
-  params.append("user_id", user_id);
-  params.append("user_pwd", user_pwd);
+  params.append("userId", user_id);
+  params.append("userPw", user_pwd);
 
   const response = await x_fetch.post<ApiResponse>(
-    `/astroapi/base/v2/auth/adminlogin?${params.toString()}`
+    `/api/v1/base/auth/adminlogin?${params.toString()}`
   );
 
   if (!response.isSuccess) {
@@ -34,6 +34,5 @@ export const setLogin = async (user_id: string, user_pwd: string) => {
     return;
   }
 
-  console.log("데이터 확인 ===" + JSON.stringify(apiData.data));
   return apiData;
 };

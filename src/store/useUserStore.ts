@@ -48,3 +48,7 @@ export const useUserStore = create(
     }
   )
 );
+
+// Add this export to your store file
+export const getToken = () => useUserStore.getState().user?.token;
+export const getTokenRefresh = () => useUserStore.getState().user?.token_refresh;
